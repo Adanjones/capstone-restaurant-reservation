@@ -8,25 +8,44 @@ require('dotenv').config();
 const path = require("path");
 
 const {
-  DATABASE_URL = "postgresql://postgres@localhost/postgres",
-  DATABASE_URL_DEVELOPMENT = "postgresql://postgres@localhost/postgres",
-  DATABASE_URL_TEST = "postgresql://postgres@localhost/postgres",
-  DATABASE_URL_PREVIEW = "postgresql://postgres@localhost/postgres",
+  DATABASE_URL,
+  DATABASE_URL_DEVELOPMENT,
+  DATABASE_URL_TEST,
+  DATABASE_URL_PREVIEW,
   DEBUG,
+  RENDER_HOST,
+  RENDER_USER,
+  RENDER_PASSWORD,
+  RENDER_DATABASE
 } = process.env;
+
+const renderConnection = {
+  host: RENDER_HOST,
+  user: RENDER_USER,
+  password: RENDER_PASSWORD,
+  database: RENDER_DATABASE,
+  ssl: {
+    rejectUnauthorized: false, // this will ignore self-signed certificates
+  },
+};
 
 module.exports = {
   development: {
-    client: "postgresql",
+    client: "pg",
     pool: { min: 1, max: 5 },
-    connection: DATABASE_URL_DEVELOPMENT,
+    connection: {
+      connectionString: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    },
     migrations: {
       directory: path.join(__dirname, "src", "db", "migrations"),
     },
     seeds: {
       directory: path.join(__dirname, "src", "db", "seeds"),
     },
-    debug: !!DEBUG,
+    debug: !!DEBUG,    
   },
   test: {
     client: "postgresql",
@@ -55,7 +74,12 @@ module.exports = {
   production: {
     client: "postgresql",
     pool: { min: 1, max: 5 },
-    connection: DATABASE_URL,
+    connection: {
+      connectionString: process.env.DATABASE_URL,
+      ssl: {
+      rejectUnauthorized: false,
+      },
+    },
     migrations: {
       directory: path.join(__dirname, "src", "db", "migrations"),
     },
@@ -63,5 +87,5 @@ module.exports = {
       directory: path.join(__dirname, "src", "db", "seeds"),
     },
     debug: !!DEBUG,
-  },
+  }
 };
