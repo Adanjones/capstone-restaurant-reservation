@@ -1,9 +1,3 @@
-/**
- * Knex configuration file.
- *
- * You will not need to make changes to this file.
- */
-
 require('dotenv').config();
 const path = require("path");
 
@@ -32,7 +26,7 @@ const renderConnection = {
 module.exports = {
   development: {
     client: "pg",
-    pool: { min: 1, max: 5 },
+    pool: { min: 2, max: 10 },
     connection: {
       connectionString: process.env.DATABASE_URL,
       ssl: {
@@ -45,12 +39,17 @@ module.exports = {
     seeds: {
       directory: path.join(__dirname, "src", "db", "seeds"),
     },
-    debug: !!DEBUG,    
+    debug: !!DEBUG,
   },
   test: {
-    client: "postgresql",
-    pool: { min: 1, max: 5 },
-    connection: DATABASE_URL_TEST,
+    client: "pg",
+    pool: { min: 2, max: 10 },
+    connection: {
+      connectionString: process.env.DATABASE_URL,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    },
     migrations: {
       directory: path.join(__dirname, "src", "db", "migrations"),
     },
@@ -60,9 +59,14 @@ module.exports = {
     debug: !!DEBUG,
   },
   preview: {
-    client: "postgresql",
-    pool: { min: 1, max: 5 },
-    connection: DATABASE_URL_PREVIEW,
+    client: "pg",
+    pool: { min: 2, max: 10 },
+    connection: {
+      connectionString: DATABASE_URL_PREVIEW,
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    },
     migrations: {
       directory: path.join(__dirname, "src", "db", "migrations"),
     },
@@ -72,12 +76,12 @@ module.exports = {
     debug: !!DEBUG,
   },
   production: {
-    client: "postgresql",
-    pool: { min: 1, max: 5 },
+    client: "pg",
+    pool: { min: 2, max: 10 },
     connection: {
       connectionString: process.env.DATABASE_URL,
       ssl: {
-      rejectUnauthorized: false,
+        rejectUnauthorized: false,
       },
     },
     migrations: {
