@@ -5,4 +5,4 @@ function methodNotAllowed(req, res, next) {
   })
 }
 
-mofulw.exports = methodNotAllowed;
+module.exports = methodNotAllowed;
