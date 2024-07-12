@@ -1,9 +1,9 @@
 const tablesService = require("./tables.service.js");
-const asyncErrorBoundary = require("../errors/asyncErrorBoundary.js");
-const hasProperties = require("../errors/hasProperties.js");
-const reservationsController = require("./reservations/reservations.controller.js");
+const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
+const hasProperties = require("../errors/hasProperties");
+const reservationsController = require("../reservations/reservations.controller");
 
-const hasRequiredProperties = hasRequiredProperties("tables_names", "capcity");
+const hasRequiredProperties = hasProperties("table_name", "capacity");
 const hasReservationId = hasProperties("reservation_id");
 
 async function tableExists(req, res, next) {
@@ -13,7 +13,7 @@ async function tableExists(req, res, next) {
     res.locals.table = table;
     return next();
   }
-  next({ status: 404, message: `Table ${table_id} connot be found.` });
+  next({ status: 404, message: `Table ${table_id} cannot be found.` });
 }
 
 function hasValidName(req, res, next) {
@@ -29,12 +29,11 @@ function hasValidName(req, res, next) {
 }
 
 function hasValidCapacity(req, res, next) {
-  const capacity = req.body.data.capacity;
-
-  if (capacity < 1 || isNaN(capacity)) {
+  const { data: { capacity } = {} } = req.body;
+  if (!capacity || typeof capacity !== "number") {
     return next({
       status: 400,
-      message: `Invalid capacity`,
+      message: "Table must have a valid capacity",
     });
   }
   next();
@@ -74,8 +73,8 @@ function tableIsNotSeated(req, res, next) {
 }
 
 function tableIsOccupied(req, res, next) {
-  if (!res.locals.occupied) {
-    next({
+  if (!res.locals.table.occupied) {
+    return next({
       status: 400,
       message: `Table is not occupied`,
     });
