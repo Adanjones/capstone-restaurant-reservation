@@ -16,17 +16,49 @@ import moment from "moment";
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
+  const [tables, setTables] = useState([]);
+  const history = useHistory();
+  const filterResults = true;
 
   useEffect(loadDashboard, [date]);
 
   function loadDashboard() {
     const abortController = new AbortController();
+
     setReservationsError(null);
     listReservations({ date }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
+
+    listTables().then(setTables);
+
     return () => abortController.abort();
   }
+
+  async function finishHandler(table_id) {
+    const abortController = new AbortController();
+    const result = window.confirm(
+      "is this table ready to new guests? This cannot be undone."
+    );
+
+    if (result) {
+      await finishTable(table_id, abortController.signal);
+      loadDashboard();
+    }
+
+    return () => abortController.abort();
+  }
+
+  const cancelHandler = async (event) => {
+    const result = window.confirm(
+      "Do you want to cancel this reservation? This cannot be undone."
+    );
+
+    if (result) {
+      await updateStatus(event.target.value, "cancelled");
+      loadDashboard();
+    }
+  };
 
   return (
     <main>
