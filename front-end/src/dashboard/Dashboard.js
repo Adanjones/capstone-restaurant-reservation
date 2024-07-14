@@ -68,6 +68,56 @@ function Dashboard({ date }) {
       </div>
       <ErrorAlert error={reservationsError} />
       {JSON.stringify(reservations)}
+      
+      <ErrorAlert error={reservationsError} />
+      <div className="group">
+        <div className="item-double">
+          <div className="group">
+            <div className="item-double">
+              <h2>
+                Reservations for {moment(date).format("dddd MMM DD YYYY")}
+              </h2>
+            </div>
+            <div className="item centered">
+              <div className="group-row">
+                <button
+                  className="item black"
+                  onClick={() =>
+                    history.push(`/dashboard?date=${previous(date)}`)
+                  }
+                >
+                  Previous
+                </button>
+                <button
+                  className="item black"
+                  onClick={() => history.push(`/dashboard?date=${today()}`)}
+                >
+                  Today
+                </button>
+                <button
+                  className="item black"
+                  onClick={() => history.push(`/dashboard?date=${next(date)}`)}
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          </div>
+          <hr></hr>
+          <div id="reservations" className="group-col">
+            <ReservationsList
+              reservations={reservations}
+              filterResults={filterResults}
+              cancelHandler={cancelHandler}
+            />
+          </div>
+        </div>
+        <div id="tables" className="item">
+          <h2>Tables</h2>
+          <hr></hr>
+          <TablesList tables={tables} finishHandler={finishHandler} />
+        </div>
+      </div>
     </main>
   );
 }
