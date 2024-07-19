@@ -4,7 +4,7 @@ import ErrorAlert from "../layout/ErrorAlert";
 import { next, previous, today } from "../utils/date-time";
 import { useHistory } from "react-router-dom";
 import ReservationsList from "../reservation/ReservationsList";
-import Tableslist from "../tables/TablesList";
+import TablesList from "../tables/TablesList";
 import moment from "moment";
 
 /**
@@ -13,6 +13,7 @@ import moment from "moment";
  *  the date for which the user wants to view reservations.
  * @returns {JSX.Element}
  */
+
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
@@ -38,7 +39,7 @@ function Dashboard({ date }) {
   async function finishHandler(table_id) {
     const abortController = new AbortController();
     const result = window.confirm(
-      "is this table ready to new guests? This cannot be undone."
+      "Is this table ready to seat new guests? This cannot be undone."
     );
 
     if (result) {
@@ -62,13 +63,6 @@ function Dashboard({ date }) {
 
   return (
     <main>
-      <h1>Dashboard</h1>
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date</h4>
-      </div>
-      <ErrorAlert error={reservationsError} />
-      {JSON.stringify(reservations)}
-      
       <ErrorAlert error={reservationsError} />
       <div className="group">
         <div className="item-double">
