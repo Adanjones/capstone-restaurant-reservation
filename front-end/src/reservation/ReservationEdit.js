@@ -32,5 +32,50 @@ export const ReservationEdit = () => {
     return () => abortController.abort();
   }, [reservation_id]);
 
+  const changeHandler = (event) => {
+    if (event.target.name === "people") {
+      setReservation({
+        ...reservation,
+        [event.target.name]: Number(event.target.value),
+      });
+    } else {
+      setReservation({
+        ...reservation,
+        [event.target.name]: event.target.value,
+      });
+    }
+  };
+
+  const submitHandler = async (event) => {
+    event.preventDefault();
+    const abortController = new AbortController();
+
+    const errors = hasValidDateAndTime(reservation);
+    if (errors.length) {
+      return setReservationErrors(errors);
+    }
+
+    try {
+      await updateReservation(reservation, abortController.signal);
+      history.push(`/dashboard?date=${reservation.reservation_date}`);
+    } catch (error) {
+      setReservationErrors([error]);
+    }
+
+    return () => abortController.abort();
+  };
+
+  return (
+    <section>
+      <h2>Edit Reservation:</h2>
+      <ReservationErrors errors={reservationErrors} />
+      <ReservationForm
+        reservation={reservation}
+        changeHandler={changeHandler}
+        submitHandler={submitHandler}
+      />
+    </section>
+  );
 };
 
+export default ReservationEdit;
