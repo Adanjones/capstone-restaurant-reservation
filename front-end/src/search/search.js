@@ -45,6 +45,41 @@ export const Search = () => {
 
     return () => abortController.abort();
   };
+
+  return (
+    <section>
+      <h2>Search</h2>
+      <div>
+        <form onSubmit={submitHandler}>
+          <div>
+            <label htmlFor="mobile_number">Mobile Number:</label>
+            <input
+              id="mobile_number"
+              name="mobile_number"
+              type="text"
+              required={true}
+              placeholder="Enter a customer's phone number"
+              value={mobileNumber}
+              maxLength="12"
+              onChange={changeHandler}
+            />
+          </div>
+          <button type="submit" className="black">
+            Find
+          </button>
+        </form>
+      </div>
+      {submitted ? (
+        <ReservationsList
+          reservations={reservations}
+          filterResults={filterResults}
+          cancelHandler={cancelHandler}
+        />
+      ) : (
+        ""
+      )}
+    </section>
+  );
 };
 
 export default Search;
