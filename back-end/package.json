@@ -29,6 +29,9 @@
     "test:start": "npx cross-env LOG_LEVEL=warn NODE_ENV=test npm run test:start:run",
     "test:start:run": "run-s test:drop-database start "
   },
+  "engines": {
+    "node": "16.20.2"
+  },
   "keywords": [],
   "author": "",
   "license": "UNLICENSED",
