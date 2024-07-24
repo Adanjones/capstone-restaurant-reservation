@@ -39,6 +39,50 @@ export const TableNew = () => {
 
     return () => abortController.abort();
   };
+
+  return (
+    <section>
+      <h2>Create a Table:</h2>
+      <TableErrors errors={tableErrors} />
+      <form onSubmit={submitHandler}>
+        <fieldset>
+          <div>
+            <label htmlFor="table_name">Table Name:</label>
+            <input
+              id="table_name"
+              name="table_name"
+              type="text"
+              required={true}
+              value={table.table_name}
+              maxLength="100"
+              minLength="2"
+              onChange={changeHandler}
+            />
+          </div>
+          <div>
+            <label htmlFor="capacity">Capacity:</label>
+            <input
+              id="capacity"
+              name="capacity"
+              type="number"
+              required={true}
+              value={table.capacity}
+              min={1}
+              onChange={changeHandler}
+            />
+          </div>
+          <div className="group-row">
+            <button className="red" onClick={() => history.goBack()}>
+              Cancel
+            </button>
+            <button className="black" type="submit">
+              Submit
+            </button>
+          </div>
+        </fieldset>
+      </form>
+    </section>
+  );
 };
 
 export default TableNew;
