@@ -76,7 +76,7 @@ module.exports = {
     debug: !!DEBUG,
   },
   production: {
-    client: "pg",
+    client: "postgresql",
     pool: { min: 2, max: 10 },
     connection: {
       connectionString: process.env.DATABASE_URL,
