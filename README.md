@@ -20,8 +20,8 @@ I decided to make my project more modular by seperating the front and back end i
 
 ## Application "[Periodic Tables](https://restraunt-frontend.vercel.app/dashboard)" Deployed 
 
-### [Github repo /Frontend](https://github.com/CrankyHippo/restaurants-frontend) - Deployed via Vercel
-### [Github repo /Backend](https://github.com/CrankyHippo/restaurant-backend) - Deployed via Heroku 
+### [Github repo /Frontend](https://github.com/Adanjones/capstone-restaurant-reservation/tree/main/front-end) - Deployed via Vercel
+### [Github repo /Backend](https://github.com/Adanjones/capstone-restaurant-reservation/tree/main/back-end) - Deployed via Heroku 
 
 # Client Descriptions
 
